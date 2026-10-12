@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LKPD 2: Bakti Sosial - Menemukan Konsep Berbalik Nilai</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--tx:#1d2740;--mu:#5d6b8a;--pr:#5b4bdb;--ac:#ff8a3d;--ok:#16a34a;--no:#dc2626;--bd:#e1e7f2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12172b;--card:#1c2340;--tx:#eef1ff;--mu:#a0abcc;--bd:#2d3659;--pr:#8b7fff}}
+:root[data-theme="dark"]{--bg:#12172b;--card:#1c2340;--tx:#eef1ff;--mu:#a0abcc;--bd:#2d3659;--pr:#8b7fff}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:linear-gradient(135deg,#5b4bdb,#8a5cf6 60%,#ff8a3d);color:#fff;padding:14px 16px}
+header h1{margin:0;font-size:1.1rem}header small{opacity:.9}
+#st{display:flex;gap:6px;padding:10px;overflow-x:auto;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+#st button{flex:0 0 auto;border:2px solid var(--bd);background:var(--bg);color:var(--mu);border-radius:20px;padding:5px 12px;font-size:.8rem;cursor:pointer}
+#st button.on{background:var(--pr);color:#fff;border-color:var(--pr)}#st button.dn{border-color:var(--ok);color:var(--ok)}#st button.on.dn{color:#fff}
+#st button:disabled{opacity:.4}
+main{max-width:800px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:14px}
+h2{margin:.1em 0 .4em;font-size:1.25rem}
+.tag{display:inline-block;background:var(--pr);color:#fff;border-radius:8px;padding:2px 10px;font-size:.78rem;margin-bottom:6px}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:12px;padding:10px 16px;font-size:1rem;cursor:pointer;margin:4px 4px 4px 0}
+.btn.alt{background:var(--ac)}.btn.ghost{background:none;color:var(--pr);border:2px solid var(--pr)}
+input,select,textarea{padding:8px;border:2px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+input.sm{width:84px;text-align:center}textarea{width:100%}
+table{border-collapse:collapse;width:100%;text-align:center;margin:8px 0}td,th{border:1px solid var(--bd);padding:7px}th{background:var(--bg)}
+.fb{margin-top:8px;padding:10px;border-radius:10px;background:var(--bg);border-left:4px solid var(--pr)}.fb.ok{border-color:var(--ok)}.fb.no{border-color:var(--no)}
+.q{background:var(--bg);border-radius:12px;padding:10px 12px;margin:10px 0}
+.box{border:2px dashed var(--pr);border-radius:12px;padding:12px;margin:10px 0;text-align:center}
+.bar{height:10px;background:var(--bd);border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pr),var(--ac));transition:width .4s}
+.kids{font-size:1.5rem;word-break:break-all;min-height:2.2em}
+@keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.05)}100%{transform:scale(1)}}.pop{animation:pop .35s}
+.pdfv{--bg:#f4f7fb;--card:#fff;--tx:#1d2740;--mu:#5d6b8a;--pr:#5b4bdb;--bd:#e1e7f2;color:#1d2740}.pdfv .btn,.pdfv input[type=range]{display:none}
+#pa{display:none}.pdfv h1,.pdfv h2,.pdfv h3{margin:.3em 0}
+@media print{header,#st,.noprint{display:none}body{background:#fff}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body.printall main{display:none}body.printall #pa{display:block;padding:0}.card{box-shadow:none}}
+</style></head><body>
+<header><h1>🔬 LKPD Interaktif: Temukan Sendiri Konsep Perbandingan Berbalik Nilai</h1><small>Matematika • Kelas 7 • Fase D • Penemuan Terbimbing • Kasus Bakti Sosial</small><br><button class="noprint" onclick="pdf()" style="margin-top:8px;border:0;border-radius:10px;padding:6px 12px;cursor:pointer">📄 Unduh PDF (pilih jenis)</button></header>
+<div id="st"></div><main id="m"></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const N=['Amati','Dugaan','Pola','Uji 1','Uji 2','Rumuskan','Terapkan','Simpulan'];
+let S={name:'',step:0,ok:{},v:{},def:'',log:[],dur:{},simN:0};
+try{const t=localStorage.getItem('lk3');if(t)S=Object.assign(S,JSON.parse(t))}catch(e){}
+S.log=S.log||[];S.dur=S.dur||{};S.simN=S.simN||0;
+const save=()=>{try{localStorage.setItem('lk3',JSON.stringify(S))}catch(e){}};
+const KEYS=[['a3','a4','a6'],['d1','d2','d3'],['p1','p2','p3','p4','p5'],['b1','b2','b3','b4','b5'],['c1','c2','c3','c4','c5','c6'],['r1','r2'],['t1','t2','t3','t4','t5'],['z1','z2','z3','z4']];
+function logA(ok){const a={};KEYS[S.step].forEach(k=>a[k]=S.v[k]||'');if(S.step==5)a.definisi=S.def;if(S.step==7)a.contoh=S.v.z5||'';S.log.push({t:Date.now(),s:S.step,ok:!!ok,a});save()}
+let last=null,ts=Date.now();
+function tick(){const n=Date.now();if(last!=null)S.dur[last]=(S.dur[last]||0)+(n-ts);ts=n;last=S.step}
+const $=s=>document.querySelector(s);
+const val=s=>{s=String(s==null?'':s).replace(',','.').trim();if(s.includes('/')){const[a,b]=s.split('/');return parseFloat(a)/parseFloat(b)}return parseFloat(s)};
+const near=(a,b)=>Math.abs(a-b)<0.02;
+const I=(id,ph)=>`<input class="sm" id="${id}" inputmode="decimal" placeholder="${ph||''}" value="${S.v[id]||''}" oninput="S.v[this.id]=this.value;save()">`;
+const SEL=(id,o)=>`<select id="${id}" onchange="S.v[this.id]=this.value;save()"><option value="">pilih…</option>${o.map(x=>`<option ${S.v[id]==x?'selected':''}>${x}</option>`).join('')}</select>`;
+const g=id=>$('#'+id).value;
+const fb=(ok,t)=>{logA(ok);$('#fb').innerHTML=`<div class="fb ${ok?'ok':'no'} pop">${ok?'✅':'❌'} ${t}</div>`+(ok?`<button class="btn alt noprint" onclick="nx()">${S.step==7?'Selesai 🎉':'Langkah berikutnya ➜'}</button>`:'');if(ok){S.ok[S.step]=1;save();stp()}};
+function nx(){if(S.step<7){S.step++;save();R()}else{S.fin=1;save();R()}}
+function stp(){const first=N.findIndex((n,i)=>!S.ok[i]);const mx=first<0?7:first;
+$('#st').innerHTML=N.map((n,i)=>`<button class="${S.step==i?'on':''} ${S.ok[i]?'dn':''}" ${i>mx?'disabled':''} onclick="S.step=${i};R()">${i+1}. ${n}${S.ok[i]?' ✓':''}</button>`).join('')}
+const head=(i,t,goal)=>`<div class="card"><span class="tag">Langkah ${i+1}/8</span><h2>${t}</h2><div class="bar"><i style="width:${(i+1)/8*100}%"></i></div><p style="color:var(--mu)"><b>Tujuanmu:</b> ${goal}</p>`;
+const T=[ // [anak,waktu]
+[1,60],[2,30],[3,20],[4,15],[6,10]];
+
+const ST=[
+()=>`${head(0,'Amati Masalah','mengumpulkan data dari situasi nyata.')}
+<div class="q">🍱 <b>Masalah:</b> Panitia bakti sosial punya <b>120 bungkus makanan</b>. Semuanya akan dibagikan <b>sama rata</b> kepada para penerima, tanpa sisa.</div>
+<p>👇 <b>Coba sendiri!</b> Geser jumlah penerima dan lihat jatah tiap orang. Catat hasilnya pada tabel.</p>
+<input type="range" min="0" max="9" value="${S.v.sl||0}" style="width:100%" oninput="S.v.sl=this.value;S.simN++;sim()"><div class="kids" id="kd"></div><div class="box" id="sm"></div>
+<table><tr><th>Jumlah penerima</th><td>2</td><td>4</td><td>5</td><td>6</td><td>10</td></tr><tr><th>Jatah tiap penerima (bungkus)</th><td>60</td><td>30</td><td>${I('a3')}</td><td>${I('a4')}</td><td>${I('a6')}</td></tr></table>
+<button class="btn" onclick="c0()">Periksa Tabel</button><div id="fb"></div></div>`,
+()=>`${head(1,'Buat Dugaan','menuliskan dugaan awalmu sebelum diuji.')}
+<div class="q">Dari simulasi tadi, jawab dengan <b>dugaanmu</b> sendiri (tidak ada jawaban salah, kita akan mengujinya!).</div>
+<p>1) Jika jumlah penerima <b>bertambah</b>, jatah tiap penerima… ${SEL('d1',['bertambah','berkurang','tetap'])}</p>
+<p>2) Jika jumlah penerima menjadi <b>2 kali</b> lipat, jatah tiap penerima menjadi… ${SEL('d2',['2 kali lipat','setengahnya (½ kali)','tidak berubah'])}</p>
+<p>3) Menurutmu, apakah jatah ÷ jumlah penerima selalu sama? ${SEL('d3',['ya, selalu sama','tidak sama'])}</p>
+<button class="btn" onclick="if(g('d1')&&g('d2')&&g('d3'))fb(true,'Dugaanmu tersimpan. Sekarang kita uji dengan data!');else fb(false,'Lengkapi ketiga dugaan dulu.')">Simpan Dugaan</button><div id="fb"></div></div>`,
+()=>`${head(2,'Temukan Pola Perubahan','membandingkan perubahan jumlah penerima dengan perubahan jatah.')}
+<p>Jumlah penerima berubah <b>berapa kali</b> lipat, dan jatahnya berubah <b>berapa kali</b> lipat? (boleh ditulis 0,5 atau 1/2)</p>
+<table><tr><th>Perubahan penerima</th><th>Penerima jadi … kali</th><th>Jatah jadi … kali</th></tr>
+<tr><td>2 → 4 (60 → 30)</td><td>2</td><td>${I('p1')}</td></tr><tr><td>5 → 10 (24 → 12)</td><td>2</td><td>${I('p2')}</td></tr>
+<tr><td>2 → 6 (60 → 20)</td><td>3</td><td>${I('p3')}</td></tr><tr><td>3 → 6 (40 → 20)</td><td>2</td><td>${I('p4')}</td></tr></table>
+<p>Pola yang kamu lihat: jika penerima menjadi <b>n kali</b>, maka jatah menjadi… ${SEL('p5',['n kali juga','kebalikannya (1/n kali)','tetap'])}</p>
+<button class="btn" onclick="c2()">Periksa</button><div id="fb"></div></div>`,
+()=>`${head(3,'Uji Pertama: Apakah Berbanding Lurus?','menguji dengan hasil bagi (jatah ÷ penerima).')}
+<div class="q">Pada <b>berbanding lurus</b>, hasil bagi kedua besaran selalu <b>tetap</b>. Mari kita uji! (boleh ditulis 7,5)</div>
+<table><tr><th>Penerima (x)</th><th>Jatah (y)</th><th>y ÷ x</th></tr><tr><td>2</td><td>60</td><td>${I('b1')}</td></tr><tr><td>4</td><td>30</td><td>${I('b2')}</td></tr><tr><td>5</td><td>24</td><td>${I('b3')}</td></tr></table>
+<p>Hasil bagi y ÷ x ${SEL('b4',['selalu tetap','tidak tetap'])} ➜ berarti ini ${SEL('b5',['berbanding lurus','bukan berbanding lurus'])}</p>
+<button class="btn" onclick="c3()">Periksa</button><div id="fb"></div></div>`,
+()=>`${head(4,'Uji Kedua: Cari Hubungan yang Tetap','menemukan operasi yang hasilnya selalu sama.')}
+<p>Karena hasil bagi tidak tetap, coba operasi lain: <b>hasil kali</b> (penerima × jatah).</p>
+<table><tr><th>Penerima (x)</th><th>Jatah (y)</th><th>x × y</th></tr><tr><td>2</td><td>60</td><td>${I('c1')}</td></tr><tr><td>4</td><td>30</td><td>${I('c2')}</td></tr><tr><td>5</td><td>24</td><td>${I('c3')}</td></tr><tr><td>10</td><td>12</td><td>${I('c4')}</td></tr></table>
+<p>Hasil kali x × y ${SEL('c5',['selalu tetap','berubah-ubah'])}. Menurutmu angka tetap itu menunjukkan… ${SEL('c6',['jumlah seluruh bungkus (120 bungkus)','jumlah penerima','jatah terbanyak'])}</p>
+<button class="btn" onclick="c4()">Periksa</button><div id="fb"></div></div>`,
+()=>`${head(5,'Rumuskan Konsep','menyusun rumus dan definisi dengan kata-katamu sendiri.')}
+<p>1) Jika x berbanding terbalik dengan y, maka untuk dua pasang data berlaku:<br> x₁ × y₁ = ${SEL('r1',['x₂ × y₂','x₂ ÷ y₂','x₂ + y₂'])}</p>
+<p>2) Bentuk perbandingan yang benar (jatah <b>dibalik</b>): <br>${SEL('r2',['x₁/x₂ = y₁/y₂','x₁/x₂ = y₂/y₁'])}</p>
+<p>3) Tulis <b>definisi</b> perbandingan berbalik nilai dengan kata-katamu sendiri:</p>
+<textarea id="r3" rows="3" oninput="S.def=this.value;save()">${S.def}</textarea>
+<button class="btn" onclick="c5()">Periksa &amp; Bandingkan</button><div id="fb"></div></div>`,
+()=>`${head(6,'Terapkan dan Bedakan','memakai konsep untuk soal baru dan membedakannya dari berbanding lurus.')}
+<div class="q"><b>A. Soal baru.</b> Sebuah posko membagikan paket sembako: <b>9 keluarga</b> mendapat masing-masing <b>20 paket</b>. Jika paket yang sama dibagikan kepada <b>12 keluarga</b>, berapa paket tiap keluarga?</div>
+<p>① Jenis hubungan: ${SEL('t1',['berbanding lurus','berbalik nilai'])}<br>② Hasil kali tetap (9 × 20) = ${I('t2')}<br>③ Jatah tiap keluarga untuk 12 keluarga = ${I('t3')} paket</p>
+<div class="q"><b>B. Bedakan.</b> Tabel pensil: 2 pensil = Rp6.000, 4 pensil = Rp12.000. Hubungan ini… ${SEL('t4',['berbanding lurus','berbalik nilai'])} karena ${SEL('t5',['hasil bagi tetap (Rp3.000)','hasil kali tetap'])}</div>
+<button class="btn" onclick="c6()">Periksa</button><div id="fb"></div></div>`,
+()=>S.fin?fin():`${head(7,'Simpulan & Diskusi','membandingkan dugaan awal dan menyimpulkan.')}
+<div class="q">Dugaan awalmu: jatah jika penerima bertambah → <b>${S.v.d1||'-'}</b>; penerima 2× → <b>${S.v.d2||'-'}</b>.<br>Setelah diuji, dugaanmu: ${SEL('z1',['benar','perlu diperbaiki'])}</div>
+<p>Lengkapi: Dua besaran berbalik nilai jika satu naik, yang lain ${SEL('z2',['naik','turun'])}, dan hasil ${SEL('z3',['kali','bagi'])} keduanya ${SEL('z4',['tetap','berubah'])}.</p>
+<p>💬 <b>Diskusi kelompok:</b> Bandingkan definisimu dengan 2 temanmu. Tulis satu contoh berbalik nilai dari kehidupanmu:</p><textarea id="z5" rows="2" oninput="S.v.z5=this.value;save()">${S.v.z5||''}</textarea>
+<button class="btn" onclick="c7()">Selesaikan</button><div id="fb"></div></div>`];
+
+
+function R(){tick();stp();$('#m').innerHTML=S.step==0&&!S.name?`<div class="card"><h2>Halo! 👋</h2><p>Kamu akan menjadi <b>penemu</b>. Tidak ada rumus yang diberikan di awal — kamu menemukannya sendiri lewat 8 langkah.</p><p>Namamu:</p><input id="nm" style="width:100%" placeholder="Tulis nama"><button class="btn" onclick="if(g('nm').trim()){S.name=g('nm').trim();save();R()}">Mulai 🚀</button></div>`:ST[S.step]();if(S.step==0&&S.name)sim();window.scrollTo(0,0)}
+const D=[2,3,4,5,6,8,10,12,15,20];
+function sim(){const n=D[+(S.v.sl||0)];if(!$('#kd'))return;$('#kd').textContent='🙋'.repeat(n);$('#sm').innerHTML=`<b>${n}</b> penerima ➜ tiap orang <b>${120/n}</b> bungkus`}
+function c0(){const a=[val(g('a3')),val(g('a4')),val(g('a6'))],ok=near(a[0],24)&&near(a[1],20)&&near(a[2],12);fb(ok,ok?'Data lengkap! Perhatikan: penerima makin banyak, jatah tiap orang makin sedikit.':'Ada yang belum tepat. Gunakan simulasi di atas untuk mengecek.')}
+function c2(){const f=[.5,.5,1/3,.5].map((x,i)=>near(val(g('p'+(i+1))),x)).every(Boolean),k=g('p5')=='kebalikannya (1/n kali)';fb(f&&k,f&&k?'Hebat! Penerima ×n ➜ jatah ×1/n. Perubahannya saling berkebalikan.':'Periksa lagi: 60→30 berarti jatah menjadi berapa kali? Lalu pilih pola yang cocok.')}
+function c3(){const ok=near(val(g('b1')),30)&&near(val(g('b2')),7.5)&&near(val(g('b3')),4.8)&&g('b4')=='tidak tetap'&&g('b5')=='bukan berbanding lurus';fb(ok,ok?'Betul! 30; 7,5; 4,8 — hasil bagi tidak tetap, jadi BUKAN berbanding lurus.':'Hitung y ÷ x: 60÷2, 30÷4, 24÷5, lalu tarik kesimpulan.')}
+function c4(){const ok=[1,2,3,4].every(i=>near(val(g('c'+i)),120))&&g('c5')=='selalu tetap'&&g('c6').startsWith('jumlah seluruh');fb(ok,ok?'Luar biasa! Hasil kali selalu 120. Ini ciri khas berbalik nilai.':'Hitung 2×60, 4×30, 5×24, 10×12. Angka tetapnya mewakili jumlah seluruh bungkus.')}
+function c5(){const ok=g('r1')=='x₂ × y₂'&&g('r2')=='x₁/x₂ = y₂/y₁'&&S.def.trim().length>=15;
+if(!ok)return fb(false,S.def.trim().length<15?'Tulis definisimu minimal satu kalimat lengkap.':'Ingat: hasil kali tetap, dan perbandingan salah satunya dibalik.');
+fb(true,'Rumus benar! <br><i>Definisi baku:</i> dua besaran berbalik nilai jika naiknya satu besaran menyebabkan turunnya besaran lain dengan hasil kali yang tetap. Samakah dengan definisimu? Perbaiki bila perlu.')}
+function c6(){const ok=g('t1')=='berbalik nilai'&&near(val(g('t2')),180)&&near(val(g('t3')),15)&&g('t4')=='berbanding lurus'&&g('t5').startsWith('hasil bagi');fb(ok,ok?'Tepat! 9×20=180; 180÷12=15 paket. Pensil: hasil bagi tetap ➜ berbanding lurus.':'Cek: penerima bertambah, jatah turun? Hitung 180 ÷ 12. Untuk pensil, hitung harga ÷ jumlah.')}
+function c7(){const ok=g('z1')&&g('z2')=='turun'&&g('z3')=='kali'&&g('z4')=='tetap'&&(S.v.z5||'').trim().length>=8;fb(ok,ok?'Kamu telah menemukan konsep berbalik nilai sendiri! 🎉':'Lengkapi kalimat simpulan dan tulis satu contohmu.')}
+function fin(){return `<div class="card" style="text-align:center"><div style="font-size:3rem">🎓</div><h2>Selamat, ${S.name}!</h2><p>Kamu menyelesaikan 8 langkah penemuan konsep.</p><div class="q" style="text-align:left"><b>Rangkuman penemuanmu:</b><br>• Penerima ×n ➜ jatah ×1/n<br>• y ÷ x tidak tetap (bukan berbanding lurus)<br>• x × y = tetap ➜ <b>x₁·y₁ = x₂·y₂</b><br>• Definisimu: <i>${S.def.replace(/</g,'&lt;')}</i><br>• Contohku: <i>${(S.v.z5||'').replace(/</g,'&lt;')}</i></div><button class="btn noprint" onclick="pdf()">📄 Unduh PDF (pilih jenis)</button><button class="btn ghost noprint" onclick="if(confirm('Ulangi dari awal?')){S={name:S.name,step:0,ok:{},v:{},def:'',log:[],dur:{},simN:0};save();R()}">🔄 Ulangi</button></div>`}
+const LBL={a3:'Jatah 5 penerima (bungkus)',a4:'Jatah 6 penerima (bungkus)',a6:'Jatah 10 penerima (bungkus)',d1:'Dugaan: penerima bertambah, jatah',d2:'Dugaan: penerima 2 kali lipat, jatah',d3:'Dugaan: jatah:penerima selalu sama?',p1:'Faktor jatah 2->4 penerima',p2:'Faktor jatah 5->10 penerima',p3:'Faktor jatah 2->6 penerima',p4:'Faktor jatah 3->6 penerima',p5:'Pola',b1:'y:x (x=2)',b2:'y:x (x=4)',b3:'y:x (x=5)',b4:'Hasil bagi',b5:'Kesimpulan',c1:'x*y (x=2)',c2:'x*y (x=4)',c3:'x*y (x=5)',c4:'x*y (x=10)',c5:'Hasil kali',c6:'Makna angka tetap',r1:'x1*y1 =',r2:'Bentuk perbandingan',definisi:'Definisi siswa',t1:'Jenis hubungan soal A',t2:'Hasil kali tetap',t3:'Jatah 12 keluarga (paket)',t4:'Jenis hubungan pensil',t5:'Alasan',z1:'Dugaan awal',z2:'Satu naik, lainnya',z3:'Operasi tetap',z4:'Hasilnya',contoh:'Contoh dari siswa'};
+const cl=t=>String(t==null?'':t).replace(/×/g,'x').replace(/÷/g,':').replace(/₁/g,'1').replace(/₂/g,'2').replace(/⅓/g,'1/3').replace(/≈/g,'~').replace(/[➜→]/g,'->').replace(/[^\x0A\x20-\x7E\u00A0-\u00FF]/g,'');
+const fd=ms=>{const s=Math.round(ms/1000);return Math.floor(s/60)+' mnt '+(s%60)+' dtk'};
+async function pdfAct(){
+tick();
+const J=window.jspdf&&window.jspdf.jsPDF;if(!J){printAct();return}
+const d=new J({unit:'mm',format:'a4'});let y=34;
+const put=(t,sz,b,ind,c)=>{d.setFont('helvetica',b?'bold':'normal');d.setFontSize(sz);d.setTextColor(...(c||[30,39,64]));d.splitTextToSize(cl(t),180-(ind||0)).forEach(l=>{if(y>282){d.addPage();y=18}d.text(l,15+(ind||0),y);y+=sz*.48})};
+const L=S.log,okc=L.filter(x=>x.ok).length,dn=N.filter((n,i)=>S.ok[i]).length,td=Object.values(S.dur).reduce((a,b)=>a+b,0);
+d.setFillColor(91,75,219);d.rect(0,0,210,26,'F');d.setFont('helvetica','bold');d.setFontSize(15);d.setTextColor(255,255,255);d.text('LAPORAN AKTIVITAS BELAJAR',15,12);d.setFontSize(10);d.setFont('helvetica','normal');d.text('LKPD Perbandingan Berbalik Nilai - Matematika Kelas 7 (Fase D)',15,19);
+put('Nama: '+(S.name||'-'),11,1);
+put('Dicetak: '+new Date().toLocaleString('id-ID'),10);
+put('Langkah selesai: '+dn+' dari 8',10);
+put('Total percobaan: '+L.length+' (benar: '+okc+', belum tepat: '+(L.length-okc)+')',10);
+put('Waktu belajar tercatat: '+fd(td)+' | Simulasi dicoba: '+(S.simN||0)+' kali',10);
+y+=3;
+N.forEach((n,i)=>{const A=L.filter(x=>x.s==i);y+=2;put((i+1)+'. '+n+' - '+(S.ok[i]?'SELESAI':'belum selesai')+' | durasi '+fd(S.dur[i]||0)+' | '+A.length+' percobaan',11,1,0,[91,75,219]);
+if(!A.length)put('Belum ada aktivitas.',9,0,4,[120,120,120]);
+A.forEach((x,j)=>{put('Percobaan '+(j+1)+' ('+new Date(x.t).toLocaleTimeString('id-ID')+'): '+(x.ok?'Benar':'Belum tepat'),9,1,4,x.ok?[22,163,74]:[220,38,38]);
+const s=Object.entries(x.a).filter(e=>e[1]!=='').map(e=>(LBL[e[0]]||e[0])+' = '+e[1]).join('; ');if(s)put(s,9,0,8)})});
+if(S.def){y+=3;put('Definisi buatan siswa:',11,1,0,[91,75,219]);put(S.def,10,0,4)}
+if(S.v.z5){y+=2;put('Contoh dari kehidupan siswa:',11,1,0,[91,75,219]);put(S.v.z5,10,0,4)}
+const pg=d.getNumberOfPages();for(let i=1;i<=pg;i++){d.setPage(i);d.setFontSize(8);d.setTextColor(120,120,120);d.text('Halaman '+i+' / '+pg,105,291,{align:'center'})}
+const fn='laporan-aktivitas-'+(S.name||'siswa').replace(/[^A-Za-z0-9]+/g,'_')+'.pdf';
+let dl=null;try{dl=window.claude&&await claude.use('downloads')}catch(e){}
+if(dl){try{await dl.save({filename:fn,data:d.output('blob')});return}catch(e){if(e&&e.code=='declined')return}}
+printAct()}
+function pdf(){const o=$('#pm');if(o)o.remove();const m=document.createElement('div');m.id='pm';m.className='noprint';m.style.cssText='position:fixed;inset:0;background:#0008;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px';
+m.innerHTML=`<div class="card" style="max-width:420px;width:100%;margin:0"><h2>📄 Unduh PDF</h2><p>Pilih jenis PDF:</p><button class="btn" style="width:100%" onclick="$('#pm').remove();pdfAct()">📊 Laporan Aktivitas<br><small>riwayat percobaan, waktu, dan jawaban</small></button><button class="btn alt" style="width:100%" onclick="pdfAll()">📘 LKPD Semua Halaman<br><small>seluruh 8 langkah beserta jawabanku</small></button><button class="btn ghost" style="width:100%" onclick="$('#pm').remove();printAll()">🖨️ Cetak Semua Halaman (Simpan sebagai PDF)</button><button class="btn ghost" style="width:100%" onclick="$('#pm').remove()">Batal</button><div id="pmsg"></div></div>`;document.body.appendChild(m)}
+
+async function pdfAll(){
+const msg=$('#pmsg'),J=window.jspdf&&window.jspdf.jsPDF;
+if(!J){msg.innerHTML='<div class="fb no">Pustaka PDF belum termuat. Periksa koneksi internet lalu coba lagi.</div>';return}
+try{
+const A=k=>{const x=S.v[k];return x?String(x):'........'};
+const d=new J({unit:'mm',format:'a4'});let y=0;
+const tx=(t,sz,b,ind,c)=>{d.setFont('helvetica',b?'bold':'normal');d.setFontSize(sz);d.setTextColor(...(c||[30,39,64]));d.splitTextToSize(cl(t),180-(ind||0)).forEach(l=>{if(y>280){d.addPage();y=18}d.text(l,15+(ind||0),y);y+=sz*.5});y+=1.5};
+const tb=rows=>{const cw=180/rows[0].length;rows.forEach((r,i)=>{if(y>270){d.addPage();y=18}r.forEach((c,j)=>{d.setDrawColor(170,170,190);if(i==0)d.setFillColor(236,238,250);else d.setFillColor(255,255,255);d.rect(15+j*cw,y,cw,9,'FD');d.setFont('helvetica',i==0?'bold':'normal');d.setFontSize(10);d.setTextColor(30,39,64);d.text(cl(c),15+j*cw+cw/2,y+6,{align:'center',maxWidth:cw-2})});y+=9});y+=4};
+d.setFillColor(91,75,219);d.rect(0,0,210,297,'F');d.setTextColor(255,255,255);d.setFont('helvetica','bold');d.setFontSize(24);d.text('LKPD Interaktif',105,100,{align:'center'});d.setFontSize(16);d.text('Menemukan Konsep Perbandingan Berbalik Nilai',105,112,{align:'center'});d.setFont('helvetica','normal');d.setFontSize(12);d.text('Matematika - Kelas 7 - Fase D - Kurikulum Merdeka',105,124,{align:'center'});d.setFontSize(14);d.text(cl('Nama: '+(S.name||'-')),105,150,{align:'center'});d.text('Dicetak: '+new Date().toLocaleDateString('id-ID'),105,160,{align:'center'});d.text('Langkah selesai: '+N.filter((n,i)=>S.ok[i]).length+' dari 8',105,170,{align:'center'});
+const PG=[
+['Amati Masalah','Mengumpulkan data dari situasi nyata.',()=>{tx('Masalah: Panitia bakti sosial punya 120 bungkus makanan yang dibagikan sama rata kepada para penerima, tanpa sisa.',11);tb([['Jumlah penerima','2','4','5','6','10'],['Jatah tiap penerima','60','30',A('a3'),A('a4'),A('a6')]])}],
+['Buat Dugaan','Menuliskan dugaan awal sebelum diuji.',()=>{tx('Dugaanku sebelum menguji:',11,1);tx('1) Jika jumlah penerima bertambah, jatah tiap penerima: '+A('d1'),11);tx('2) Jika jumlah penerima menjadi 2 kali lipat, jatah menjadi: '+A('d2'),11);tx('3) Apakah jatah : jumlah penerima selalu sama? '+A('d3'),11)}],
+['Temukan Pola Perubahan','Membandingkan perubahan jumlah penerima dengan perubahan jatah.',()=>{tx('Jumlah penerima berubah berapa kali lipat, dan jatahnya berubah berapa kali lipat?',11);tb([['Perubahan penerima','Penerima jadi ... kali','Jatah jadi ... kali'],['2 -> 4 (60 -> 30)','2',A('p1')],['5 -> 10 (24 -> 12)','2',A('p2')],['2 -> 6 (60 -> 20)','3',A('p3')],['3 -> 6 (40 -> 20)','2',A('p4')]]);tx('Pola: jika penerima menjadi n kali, maka jatah menjadi '+A('p5'),11)}],
+['Uji Pertama: Apakah Berbanding Lurus?','Menguji dengan hasil bagi (jatah : penerima).',()=>{tx('Pada berbanding lurus, hasil bagi kedua besaran selalu tetap. Uji dengan hasil bagi y : x.',11);tb([['Penerima (x)','Jatah (y)','y : x'],['2','60',A('b1')],['4','30',A('b2')],['5','24',A('b3')]]);tx('Hasil bagi y : x '+A('b4')+', berarti ini '+A('b5'),11)}],
+['Uji Kedua: Cari Hubungan yang Tetap','Menemukan operasi yang hasilnya selalu sama.',()=>{tx('Karena hasil bagi tidak tetap, coba hasil kali (penerima x jatah).',11);tb([['Penerima (x)','Jatah (y)','x * y'],['2','60',A('c1')],['4','30',A('c2')],['5','24',A('c3')],['10','12',A('c4')]]);tx('Hasil kali x * y '+A('c5'),11);tx('Angka tetap itu menunjukkan: '+A('c6'),11)}],
+['Rumuskan Konsep','Menyusun rumus dan definisi dengan kata-kata sendiri.',()=>{tx('1) x1 * y1 = '+A('r1'),11);tx('2) Bentuk perbandingan yang benar: '+A('r2'),11);tx('3) Definisi perbandingan berbalik nilai menurutku:',11,1);tx(S.def||'........',11,0,4)}],
+['Terapkan dan Bedakan','Memakai konsep untuk soal baru dan membedakannya dari berbanding lurus.',()=>{tx('A. 9 keluarga mendapat masing-masing 20 paket. Jika paket yang sama dibagikan kepada 12 keluarga, berapa paket tiap keluarga?',11,1);tx('1) Jenis hubungan: '+A('t1'),11,0,4);tx('2) Hasil kali tetap (9 x 20) = '+A('t2'),11,0,4);tx('3) Jatah untuk 12 keluarga = '+A('t3')+' paket',11,0,4);tx('B. Tabel pensil: 2 pensil = Rp6.000, 4 pensil = Rp12.000. Hubungan ini '+A('t4')+' karena '+A('t5'),11,1)}],
+['Simpulan dan Diskusi','Membandingkan dugaan awal dan menyimpulkan.',()=>{tx('Dugaan awalku: jatah jika penerima bertambah = '+(S.v.d1||'-')+'; penerima 2 kali lipat = '+(S.v.d2||'-'),11);tx('Setelah diuji, dugaanku: '+A('z1'),11);tx('Simpulan: Dua besaran berbalik nilai jika satu naik, yang lain '+A('z2')+', dan hasil '+A('z3')+' keduanya '+A('z4')+'.',11);tx('Contoh berbalik nilai dari kehidupanku:',11,1);tx(A('z5'),11,0,4)}]];
+PG.forEach((p,i)=>{d.addPage();d.setFillColor(91,75,219);d.rect(0,0,210,22,'F');d.setFont('helvetica','bold');d.setFontSize(14);d.setTextColor(255,255,255);d.text(cl('Langkah '+(i+1)+'/8: '+p[0]),15,14);d.setFontSize(9);d.setFont('helvetica','normal');d.text(cl(S.name||''),195,14,{align:'right'});y=32;tx('Tujuan: '+p[1],10,0,0,[93,107,138]);y+=2;p[2]();y+=3;tx(S.ok[i]?'Status: sudah diselesaikan':'Status: belum diselesaikan',10,1,0,S.ok[i]?[22,163,74]:[220,38,38])});
+const pg=d.getNumberOfPages();for(let i=2;i<=pg;i++){d.setPage(i);d.setFontSize(8);d.setTextColor(120,120,120);d.text('Halaman '+i+' / '+pg,105,291,{align:'center'})}
+const fn='LKPD-berbalik-nilai-'+(S.name||'siswa').replace(/[^A-Za-z0-9]+/g,'_')+'.pdf';
+let dl=null;try{dl=window.claude&&await claude.use('downloads')}catch(e){}
+if(dl){try{await dl.save({filename:fn,data:d.output('blob')});const p=$('#pm');if(p)p.remove();return}catch(e){if(e&&e.code=='declined'){msg.innerHTML='';return}}}
+msg.innerHTML='<div class="fb no">Unduhan langsung tidak tersedia di tampilan ini. Membuka dialog cetak: pilih "Simpan sebagai PDF".</div>';setTimeout(printAll,300)
+}catch(e){msg.innerHTML='<div class="fb no">Gagal menyusun PDF: '+String(e&&e.message||e).replace(/</g,'&lt;')+'</div>'}}
+const esc=t=>String(t==null?'':t).replace(/</g,'&lt;');
+function prn(h,cb){let p=$('#pa');if(!p){p=document.createElement('div');p.id='pa';p.className='pdfv';document.body.appendChild(p)}p.innerHTML=h;if(cb)cb(p);document.body.classList.add('printall');window.addEventListener('afterprint',()=>document.body.classList.remove('printall'),{once:true});setTimeout(()=>window.print(),100)}
+function printAll(){const f=S.fin;S.fin=0;let h='<div style="text-align:center;padding:60px 0"><h1>LKPD Interaktif</h1><h2>Menemukan Konsep Perbandingan Berbalik Nilai</h2><p>Matematika • Kelas 7 • Fase D</p><h3>Nama: '+esc(S.name||'-')+'</h3><p>Langkah selesai: '+N.filter((n,i)=>S.ok[i]).length+' dari 8</p></div>';
+for(let i=0;i<8;i++)h+='<div style="break-before:page">'+ST[i]()+'<p style="text-align:center;font-weight:700">'+(S.ok[i]?'✅ Langkah ini sudah diselesaikan':'⏳ Langkah ini belum diselesaikan')+'</p></div>';
+S.fin=f;prn(h,p=>{const kd=p.querySelector('#kd'),sm=p.querySelector('#sm');if(kd){const n=D[+(S.v.sl||0)];kd.textContent='🙋'.repeat(n);sm.innerHTML='<b>'+n+'</b> penerima ➜ tiap orang <b>'+(120/n)+'</b> bungkus'}})}
+function printAct(){const L=S.log;let h='<h2>Laporan Aktivitas Belajar</h2><p><b>Nama:</b> '+esc(S.name||'-')+' | Dicetak: '+new Date().toLocaleString('id-ID')+'</p><p>Total percobaan: '+L.length+' (benar: '+L.filter(x=>x.ok).length+') | Simulasi dicoba: '+(S.simN||0)+' kali</p>';
+N.forEach((n,i)=>{const A=L.filter(x=>x.s==i);h+='<h3>'+(i+1)+'. '+n+' — '+(S.ok[i]?'Selesai':'Belum selesai')+' | '+fd(S.dur[i]||0)+' | '+A.length+' percobaan</h3>'+A.map((x,j)=>'<div class="fb '+(x.ok?'ok':'no')+'">Percobaan '+(j+1)+' ('+new Date(x.t).toLocaleTimeString('id-ID')+'): <b>'+(x.ok?'Benar':'Belum tepat')+'</b><br><small>'+Object.entries(x.a).filter(e=>e[1]!=='').map(e=>esc((LBL[e[0]]||e[0])+' = '+e[1])).join('; ')+'</small></div>').join('')});
+if(S.def)h+='<h3>Definisi buatan siswa</h3><p>'+esc(S.def)+'</p>';if(S.v.z5)h+='<h3>Contoh dari kehidupan siswa</h3><p>'+esc(S.v.z5)+'</p>';prn(h)}
+R();
+</script></body></html>
